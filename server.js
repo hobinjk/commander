@@ -6,11 +6,10 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const fetch = require('node-fetch');
 const app = express();
+// Replace with your actual gateway and JWT
 let gateway = 'https://localhost:4443';
 // eslint-disable-next-line max-len
-const jwt = 'eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjY4N2M0NGMyLTAwMmQtNDFiNS1hOWYxLTk0MzczNjk4NmE1YiJ9.eyJjbGllbnRfaWQiOiJsb2NhbC10b2tlbiIsInJvbGUiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZSI6Ii90aGluZ3M6cmVhZHdyaXRlIiwiaWF0IjoxNTMwNTQ2MTMyfQ.DP8L7KeLPh2epSADwsiCe-A-hO05bH6KohwYqY7pfERbdUcRAiWl-DfNYVFbwXCpjhbhw-aGTdYfEhjCfNFJrw';
-// eslint-disable-next-line max-len
-// jwt = 'eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjZlNWFjYmNkLTliNzYtNDZiYy1hNDJhLTM0MzM5ZTViZTBmZiJ9.eyJjbGllbnRfaWQiOiJsb2NhbC10b2tlbiIsInJvbGUiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZSI6Ii90aGluZ3M6cmVhZHdyaXRlIiwiaWF0IjoxNTI5OTU3MjA4fQ.ZROtlw01NmkT2Q7lv2cJ29LfjfX_qzJMJyqkeJylF9gYBDZQFb8v1a819d1GGj5QCrK11ehR5a9b3Wsd4uszeA';
+const jwt = '';
 
 app.use(bodyParser.json());
 
