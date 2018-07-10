@@ -69,7 +69,7 @@ app.post('/commands', function(req, res) {
     }).then((body) => {
       console.log('Success part 2', body);
       res.json({
-        text: `Okay, turning ${body.payload.param} ${body.payload.param2}`,
+        text: `OK, turning the ${body.payload.param} ${body.payload.param2}`,
       });
     }).catch((err) => {
       res.json({
