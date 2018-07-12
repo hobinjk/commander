@@ -13,22 +13,44 @@ body {
 .message {
   border-radius: 0.5rem;
   background: #C4DEEE;
-  margin: 1rem 0;
+  margin: 1rem 0 1rem 2rem;
   padding: 1rem;
   width: 20rem;
+  position: relative;
+}
+
+.message::after {
+  content: "";
+  position: absolute;
+  border-style: solid;
+  display: block;
+  width: 0;
+  bottom: 0.5rem;
 }
 
 .me {
   margin-right: 4rem;
 }
 
+.me::after {
+  border-width: 1.2rem 2rem 0 0;
+  border-color:  transparent #C4DEEE;
+  left: -2rem;
+}
+
 .other {
   background: #E7F2F8;
-  margin-left: 4rem;
+}
+
+.other::after {
+  border-width: 1.2rem 0 0 2rem;
+  border-color: transparent #E7F2F8;
+  right: -2rem;
 }
 
 #command {
   border-radius: 0.5rem;
   padding: 1rem;
   width: 20rem;
+  margin-left: 2rem;
 }

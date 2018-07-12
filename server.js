@@ -67,12 +67,54 @@ app.post('/commands', function(req, res) {
       return res.json();
     }).then((body) => {
       console.log('Success part 2', body);
+
+      let keyword;
+      switch (body.payload.keyword) {
+        case 'make':
+          keyword = 'making';
+          break;
+        case 'change':
+          keyword = 'changing';
+          break;
+        case 'set':
+          keyword = 'setting';
+          break;
+        case 'dim':
+          keyword = 'dimming';
+          break;
+        case 'turn':
+        case 'switch':
+        case 'brighten':
+        default:
+          keyword = `${body.payload.keyword}ing`;
+          break;
+      }
+
+      let preposition = '';
+      switch (body.payload.keyword) {
+        case 'dim':
+        case 'brighten':
+          if (body.payload.value) {
+            preposition = 'by ';
+          }
+          break;
+        case 'set':
+          if (body.payload.value) {
+            preposition = 'to ';
+          }
+          break;
+      }
+
+      const value = body.payload.value ? body.payload.value : '';
+
       res.json({
-        text: `OK, turning the ${body.payload.param} ${body.payload.param2}`,
+        text:
+          `OK, ${keyword} the ${body.payload.thing} ${preposition}${value}.`,
       });
     }).catch((err) => {
+      console.log(err);
       res.json({
-        text: `Something bad happened: ${err}`,
+        text: 'Sorry, I didn\'t understand.',
       });
     });
   }
