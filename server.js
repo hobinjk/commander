@@ -1,15 +1,14 @@
-// TODO: set up oauth and all that junk
-
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+// TODO: document how to set up oauth and glitch
 
 const bodyParser = require('body-parser');
 const express = require('express');
 const fetch = require('node-fetch');
+const simpleOAuth2 = require('simple-oauth2');
+
 const app = express();
-// Replace with your actual gateway and JWT
-let gateway = 'https://localhost:4443';
-// eslint-disable-next-line max-len
-const jwt = '';
+// Replace with your actual gateway
+let gateway = 'https://your-host.mozilla-iot.org';
+let jwt = '';
 
 app.use(bodyParser.json());
 
@@ -18,6 +17,53 @@ app.use('/', express.static('./'));
 app.post('/gateway', function(req, res) {
   gateway = req.body.gateway;
   res.send(200);
+});
+
+const CLIENT_ID = 'glitch-client';
+const CLIENT_SECRET = 'this should be randomly generated';
+const REQUEST_SCOPE = '/things:readwrite';
+const requestState = 'this should be randomly generated per request';
+
+const oauth2 = simpleOAuth2.create({
+  client: {
+    id: CLIENT_ID,
+    secret: CLIENT_SECRET,
+  },
+  auth: {
+    tokenHost: `${gateway}/oauth`,
+  },
+});
+
+app.get('/is-auth', (req, res) => {
+  res.json({
+    auth: !!jwt,
+  });
+});
+
+app.get('/auth', (req, res) => {
+  res.redirect(oauth2.authorizationCode.authorizeURL({
+    redirect_uri: `${gateway}/callback`,
+    scope: REQUEST_SCOPE,
+    state: requestState,
+  }));
+});
+
+app.get('/callback', (req, res) => {
+  const code = req.query.code;
+  if (req.query.state !== requestState) {
+    res.status(400).json({
+      error: 'State mismatch',
+    });
+    return;
+  }
+
+  oauth2.authorizationCode.getToken({code: code}).then((result) => {
+    const token = oauth2.accessToken.create(result);
+    jwt = token;
+    res.redirect('/');
+  }).catch((err) => {
+    res.status(400).json(err);
+  });
 });
 
 app.post('/commands', function(req, res) {

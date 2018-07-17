@@ -1,6 +1,15 @@
 const commandInput = document.getElementById('command');
 const messages = document.getElementById('messages');
 
+fetch('/is-auth').then((res) => {
+  return res.json();
+}).then((res) => {
+  if (!res.auth) {
+    // Start authentication process
+    window.location = '/auth';
+  }
+});
+
 commandInput.addEventListener('keypress', function(event) {
   if (event.key === 'Enter') {
     const msg = document.createElement('div');
