@@ -95,7 +95,7 @@ Now that the assistant app has a JWT for API access to the gateway, it can perfo
 Of particular note is the following excerpt which sends raw text to which the
 gateway will pass through its local intent parser.
 
-```
+```javascript
 fetch(`${gateway}/commands`, {
   method: 'POST',
   headers: {
